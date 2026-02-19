@@ -1,0 +1,14 @@
+{
+  "name": "netlify-email-function",
+  "version": "1.0.0",
+  "description": "Send emails using Netlify Functions and Nodemailer",
+  "main": "index.js",
+  "scripts": {
+    "start": "netlify dev"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.0",
+    "dotenv": "^16.0.0"
+  }
+}
+
