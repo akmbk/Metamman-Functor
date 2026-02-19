@@ -1,41 +1,37 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
-exports.handler = async (event, context) => {
-  // Only allow POST requests
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
-  }
-
+exports.handler = async (event) => {
   try {
-    const data = JSON.parse(event.body);
-    const { to, subject, message } = data; // Data from your request body
+    const { name, email, message } = JSON.parse(event.body);
 
-    // Create transporter using Gmail
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       auth: {
-        user: process.env.GMAIL_USER, // Your Gmail address
-        pass: process.env.GMAIL_PASS  // Your 16-character App Password
-      }
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
     });
 
-    const mailOptions = {
-      from: process.env.GMAIL_USER,
-      to: to,
-      subject: subject || "New Message from Netlify Function",
-      text: message
-    };
-
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
+      subject: `New message from ${name}`,
+      text: `
+Name: ${name}
+Email: ${email}
+Message: ${message}
+      `,
+    });
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Email sent successfully!" })
+      body: JSON.stringify({ success: true }),
     };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message })
+      body: JSON.stringify({ error: error.message }),
     };
   }
 };
+
