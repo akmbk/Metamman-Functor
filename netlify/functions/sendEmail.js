@@ -8,8 +8,18 @@ exports.handler = async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    const { to, subject, message } = data; // Data from your request body
+    const { to, subject, message, xAuthKey } = data; // Data from your request body
 
+    const secretKey = process.env.COMM_KEY;
+
+    // 3. The Comparator Logic
+    if (!authKey || authKey !== secretKey) {
+        return {
+            statusCode: 401, // Unauthorized
+            body: JSON.stringify({ error: "Signal Mismatch: Invalid Auth Key" })
+        };
+    }
+    
     // Create transporter using Gmail
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -39,3 +49,4 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
