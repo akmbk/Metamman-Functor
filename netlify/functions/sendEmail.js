@@ -32,7 +32,7 @@ exports.handler = async (event, context) => {
     const mailOptions = {
       from: process.env.GMAIL_USER,
       to: to,
-      subject: subject || "New Message from Netlify Function",
+      subject: subject,
       text: message
     };
 
@@ -49,4 +49,5 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
 
