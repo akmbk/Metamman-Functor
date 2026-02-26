@@ -5,9 +5,4 @@
   to = "/.netlify/functions/sendEmail"
   status = 200
   force = true
-[[redirects]]
-  from = "/api/authenticate"
-  to = "/.netlify/functions/sendAuthenticate"
-  status = 200
-  force = true
 
