@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
 
     const secretKey = process.env.COMM_KEY;
 
-    if (!authKey || authKey !== secretKey) {
+    if (!xAuthKey || xAuthKey !== secretKey) {
         return {
             statusCode: 401, 
             body: JSON.stringify({ error: "Signal Mismatch: Invalid Auth Key" })
@@ -47,6 +47,7 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
 
 
 
