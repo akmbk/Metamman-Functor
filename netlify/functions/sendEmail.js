@@ -1,31 +1,29 @@
 const nodemailer = require('nodemailer');
 
 exports.handler = async (event, context) => {
-  // Only allow POST requests
+  
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
 
   try {
     const data = JSON.parse(event.body);
-    const { to, subject, message, xAuthKey } = data; // Data from your request body
+    const { to, subject, message, xAuthKey } = data; 
 
     const secretKey = process.env.COMM_KEY;
 
-    // 3. The Comparator Logic
     if (!authKey || authKey !== secretKey) {
         return {
-            statusCode: 401, // Unauthorized
+            statusCode: 401, 
             body: JSON.stringify({ error: "Signal Mismatch: Invalid Auth Key" })
         };
     }
     
-    // Create transporter using Gmail
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.GMAIL_USER, // Your Gmail address
-        pass: process.env.GMAIL_PASS  // Your 16-character App Password
+        user: process.env.GMAIL_USER, 
+        pass: process.env.GMAIL_PASS 
       }
     });
 
@@ -49,5 +47,6 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
 
 
