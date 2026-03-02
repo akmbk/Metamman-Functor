@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "aksharamukha": "^2.3.0-22",
-    "dns": "^0.2.2",
     "dotenv": "^17.3.1",
     "nodemailer": "^8.0.1"
   }
