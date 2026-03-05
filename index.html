@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Transmitter Control</title>
+    <style>
+        body { font-family: 'Courier New', monospace; background: #0a0a0a; color: #00ff41; padding: 20px; }
+        .panel { border: 2px solid #00ff41; padding: 20px; width: 400px; box-shadow: 0 0 15px #00ff41; }
+        input, textarea { background: #000; color: #00ff41; border: 1px solid #00ff41; width: 95%; margin-bottom: 10px; padding: 5px; }
+        button { background: #00ff41; color: #000; border: none; padding: 10px; width: 100%; font-weight: bold; cursor: pointer; }
+        #status { margin-top: 15px; font-size: 0.8em; color: #ff8c00; }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <h3>// MAIL_TRANSMITTER_V1</h3>
+        <input type="text" id="to" placeholder="Target Email (To)">
+        <input type="text" id="subject" placeholder="Subject">
+        <textarea id="message" rows="4" placeholder="Message Body"></textarea>
+        <input type="password" id="auth" placeholder="X-Auth-Key">
+        <button onclick="transmit()">FIRE PULSE</button>
+        <div id="status">Ready for transmission...</div>
+    </div>
+
+    <script>
+        async function transmit() {
+            const status = document.getElementById('status');
+            const payload = {
+                to: document.getElementById('to').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                xAuthKey: document.getElementById('auth').value
+            };
+
+            status.innerText = "STATUS: Transmitting Signal...";
+
+            try {
+                const response = await fetch('YOUR_SERVERLESS_URL', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                if (response.ok) {
+                    status.innerText = "STATUS: Transmission Successful! ✅";
+                } else {
+                    status.innerText = "ERROR: " + (result.error || "Bus Failure");
+                }
+            } catch (err) {
+                status.innerText = "CRITICAL: Logic Short-Circuit (Network Error)";
+            }
+        }
+    </script>
+</body>
+</html>
